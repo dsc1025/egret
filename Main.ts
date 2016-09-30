@@ -38,15 +38,17 @@ class Main extends egret.DisplayObjectContainer {
     //资源组加载完成
     private resourceLoadComplete(event: RES.ResourceEvent): void {
         this.LoadingUI.setComplete()
-        this.fish = new MovieClip(event.target.getRes('fish_1_json'), event.target.getRes('fish_1_png'), true)
+        this.fish = new MovieClip(event.target.getRes('fish_1_json'), event.target.getRes('fish_1_png'), true, -15, 60, -90)
         this.stage.addChild(this.fish)
-        this.fish.x = (this.stage.stageWidth - this.fish.width) / 2;
-        this.fish.y = (this.stage.stageHeight - this.fish.height) / 2;
+        this.fish.x = this.stage.stageWidth / 2;
+        this.fish.y = this.stage.stageHeight / 2;
+
+        console.log(this.fish.width, this.fish.height)
 
         this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchStart, this);
-        // this.stage.addEventListener(egret.TouchEvent.TOUCH_END, this.onTouchEnd, this);
+        //this.stage.addEventListener(egret.TouchEvent.TOUCH_END, this.onTouchEnd, this);
         //this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onTouchMove, this);
-        this.animationFrame.addEventListener(egret.TimerEvent.TIMER, this.onAnimationFrame, this);
+        //this.animationFrame.addEventListener(egret.TimerEvent.TIMER, this.onAnimationFrame, this);
 
         this.stage.addChild(this.line)
     }
@@ -55,7 +57,7 @@ class Main extends egret.DisplayObjectContainer {
         this.touchPoint = { x: event.stageX, y: event.stageY };
         this.angleSpeed = Math.atan2(this.touchPoint.y - this.fish.y, this.touchPoint.x - this.fish.x);
         this.angle = Math.round(this.angleSpeed * 180 / Math.PI);
-        //console.log(this.fish.rotation < this.angle)
+        console.log(this.fish.rotation , this.angle)
         //this.fish.rotation = this.angle
 
 
@@ -65,7 +67,7 @@ class Main extends egret.DisplayObjectContainer {
         this.line.graphics.lineStyle(1, 0xff0000, 1)
         this.line.graphics.moveTo(this.fish.x, this.fish.y)
         //this.line.graphics.lineTo(this.touchPoint.x, this.touchPoint.y);
-        this.line.graphics.cubicCurveTo(this.fish.x, this.fish.y - this.fish.height , this.fish.x +  this.fish.width, this.fish.y , this.touchPoint.x, this.touchPoint.y);
+        this.line.graphics.cubicCurveTo(this.fish.x, this.fish.y, this.fish.x, this.fish.y, this.touchPoint.x, this.touchPoint.y);
         this.line.graphics.endFill();
 
     }
